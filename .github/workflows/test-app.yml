@@ -8,6 +8,9 @@ jobs:
     continue-on-error: false
     env:
       NODE_ENV: test
+      HTTP_HOST: localhost
+      HTTP_PORT: "3000"
+      HTTP_ORIGIN: "http://localhost:3000"
     services:
       database:
         image: postgres
