@@ -1,5 +1,5 @@
 // create a user
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { create } from '../../services/user';
 
 export default async function userFactory() {
