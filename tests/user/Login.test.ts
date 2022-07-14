@@ -1,14 +1,11 @@
-import chai, { expect } from 'chai';
+import chai, {expect} from 'chai';
 import chaiHttp from 'chai-http';
 
-import { Done } from 'mocha';
-import { del, User } from '../../src/services/user';
-import config from '../../src/config';
-import { HttpStatus } from '../../src/http/status';
-import { actingAs } from '../TestCase';
+import {del, User} from '../../src/services/user';
+import {HttpStatus} from '../../src/http/status';
+import {actingAs, Request} from '../TestCase';
 import UserFactory from '../../src/db/factories/UserFactory';
 
-const serverUrl = config.http.baseUrl;
 chai.use(chaiHttp);
 
 suite('User Login');
@@ -24,44 +21,30 @@ after(async () => {
 	await del(user.id);
 });
 
-test('user receives jwt token after login', (done) => {
-	expect(user).to.have.property('id');
-	// send a request
-	chai.request(serverUrl)
+test('user receives jwt token after login', async () => {
+	const response = await Request.post('/user/jwt')
+		.send({password: 'password', email: user.email});
+
+	expect(response).to.have.status(201);
+	expect(response.body).to.haveOwnProperty('jwt');
+});
+
+test('cant login with invalid credentials', async () => {
+	const res = await Request
 		.post('/user/jwt')
-		.send({ password: 'password', email: user.email })
-		.end((err, res) => {
-			if (err) done(err);
-			expect(res.body).to.haveOwnProperty('jwt');
-			done();
-		});
+		.send({password: 'wrongPassword!', email: 'user.email'});
+
+	expect(res).to.have.status(HttpStatus.UnprocessableEntity);
 });
 
-test('cant login with invalid credentials', (done:Done) => {
-	chai.request(serverUrl)
-		.post('/user/jwt')
-		.send({ password: 'wrongPassword!', email: 'user.email' })
-		.end((err, res) => {
-			if (err) done(err);
-			expect(res.status).equals(HttpStatus.UnprocessableEntity);
-			done();
-		});
+test('Can renew JWT token', async () => {
+	const res = await actingAs(user, {type: 'post', route: '/auth/user/jwt'});
+
+	expect(res.body).to.haveOwnProperty('jwt');
 });
 
-test('Can renew JWT token', (done:Done) => {
-	actingAs(user, { type: 'post', route: '/auth/user/jwt' })
-		.end((err, res) => {
-			if (err) done(err);
-			expect(res.body).to.haveOwnProperty('jwt');
-			done();
-		});
-});
+test('Can access restricted routes with jwt', async () => {
+	const res = await actingAs(user, {type: 'get', route: '/auth/goodbye'})
 
-test('Can access restricted routes with jwt', (done:Done) => {
-	actingAs(user, { type: 'get', route: '/auth/goodbye' })
-		.end((err, res) => {
-			if (err) done(err);
-			expect(res.text).to.equal(`goodbye ${user.email}`);
-			done();
-		});
+	expect(res.text).to.equal(`goodbye ${user.email}`);
 });
