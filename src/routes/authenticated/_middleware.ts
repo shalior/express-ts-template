@@ -14,7 +14,7 @@ const middleware = asyncWrapper(async (req, res, next) => {
 	let decoded;
 	try {
 		decoded = jwt.verify(req.headers.authorization.substring('Bearer '.length), config.secret) as unknown as {sub: string, iat: number};
-	} catch (err) {
+	} catch (err: any) {
 		throw new HttpError(HttpStatus.Unauthorized, 'unauthorized', err);
 	}
 	if (!decoded) {

@@ -1,6 +1,17 @@
 version: "3.6"
 
 services:
+  node:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    depends_on:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+    networks:
+        - backend
   postgres:
     build:
       context: ./docker/postgres
@@ -12,7 +23,9 @@ services:
       - POSTGRES_USER=default
       - POSTGRES_PASSWORD=default
     ports:
-      - 5432:5432
+      - "5432:5432"
+    networks:
+        - backend
 
   redis:
     build:
@@ -21,4 +34,8 @@ services:
     # volumes:
     #   - ./docker/redis/data:/data
     ports:
-      - 6379:6379
+      - "6379:6379"
+
+networks:
+  backend:
+    driver: bridge
