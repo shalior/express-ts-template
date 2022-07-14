@@ -23,6 +23,10 @@ const config = {
 	},
 };
 
+if (process.env.NODE_ENV === 'test') {
+	config.connection.database = 'testing';
+}
+
 module.exports = {
 	development: config,
 	test: config,
