@@ -1,5 +1,5 @@
 name: Run eslint
-on: push
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -8,4 +8,4 @@ jobs:
       - name: Install modules
         run: npm install
       - name: Run ESLint
-        run: npx eslint . --ext .js,.ts
+        run: npx eslint . --ext .js,.ts --fix
