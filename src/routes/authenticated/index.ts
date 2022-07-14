@@ -11,5 +11,4 @@ r.use(authMiddleware);
 // TODO: remove this example
 r.use('/goodbye', goodbyeRoutes);
 
-
 r.use('/user', userRoutes);

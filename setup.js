@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { promisify } = require('util');
+
 const randomBytes = promisify(crypto.randomBytes);
 
 const projectName = path.basename(__dirname);

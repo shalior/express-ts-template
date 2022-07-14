@@ -11,6 +11,24 @@ export enum EmailFrom {
 	default = 'default',
 }
 
+interface EmailPugFunctions {
+	html?: (locals?: Record<string, any>) => string;
+	plain?: (locals?: Record<string, any>) => string;
+}
+
+export interface RendererParams {
+	filename: string,
+	acceptsLanguages?: string[],
+	locals?: Record<string, any>,
+}
+
+export interface EmailJobData {
+	rendererParams: RendererParams,
+	to: string,
+	subject: string,
+	from: EmailFrom,
+}
+
 const pugConfig = {
 	pretty: true,
 	basedir: path.join(__dirname, '..', '..', 'views', 'emails'),
@@ -78,22 +96,4 @@ function prepareLocals(locals?: Record<string, any>, acceptsLanguages?: string[]
 			},
 		}),
 	};
-}
-
-interface EmailPugFunctions {
-	html?: (locals?: Record<string, any>) => string;
-	plain?: (locals?: Record<string, any>) => string;
-}
-
-export interface RendererParams {
-	filename: string,
-	acceptsLanguages?: string[],
-	locals?: Record<string, any>,
-}
-
-export interface EmailJobData {
-	rendererParams: RendererParams,
-	to: string,
-	subject: string,
-	from: EmailFrom,
 }

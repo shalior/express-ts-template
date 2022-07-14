@@ -2,12 +2,49 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Knex } from 'knex';
 import { transact } from '@cdellacqua/knex-transact';
+import { toString } from 'express-validator/src/utils';
 import config from '../config';
 import {
 	fromQueryGenerator, findOneGenerator, insertGetId,
 } from '../db/utils';
 // eslint-disable-next-line import/first
-import { toString } from 'express-validator/src/utils';
+
+export interface LoginParams {
+	email: string,
+	password: string,
+}
+
+export interface User {
+	id: number,
+	email: string,
+	passwordHash: string,
+	enabled: boolean,
+	minJwtIat: Date,
+	createdAt: Date,
+	updatedAt: Date,
+}
+
+export interface UserRaw {
+	id: number,
+	email: string,
+	passwordHash: string,
+	enabled: boolean,
+	minJwtIat: Date,
+	createdAt: Date,
+	updatedAt: Date,
+}
+
+export interface SaveUser {
+	email: string,
+	password: string,
+	enabled: boolean,
+	minJwtIat: Date,
+}
+
+export interface AuthResponse {
+	jwt: string,
+	user: Omit<User, 'passwordHash'>,
+}
 
 export const table = 'user';
 
@@ -103,41 +140,4 @@ export async function login({ email, password }: LoginParams): Promise<AuthRespo
 		return null;
 	}
 	return generateAuthResponse(user);
-}
-
-export interface LoginParams {
-	email: string,
-	password: string,
-}
-
-export interface User {
-	id: number,
-	email: string,
-	passwordHash: string,
-	enabled: boolean,
-	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
-}
-
-export interface UserRaw {
-	id: number,
-	email: string,
-	passwordHash: string,
-	enabled: boolean,
-	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
-}
-
-export interface SaveUser {
-	email: string,
-	password: string,
-	enabled: boolean,
-	minJwtIat: Date,
-}
-
-export interface AuthResponse {
-	jwt: string,
-	user: Omit<User, 'passwordHash'>,
 }

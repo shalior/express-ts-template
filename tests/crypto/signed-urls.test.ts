@@ -43,4 +43,3 @@ test('fails to get tampered signed url', (done) => {
 			done();
 		});
 });
-

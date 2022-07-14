@@ -41,7 +41,7 @@ export function shutdownable(server: Server): Server & { closeWithSockets: (time
 
 	// eslint-disable-next-line no-param-reassign
 	(server as any).closeWithSockets = async (timeoutMs: number) => {
-		await new Promise((resolve, reject) => server.close((err) => (err ? reject(err) : resolve(undefined))));
+		await new Promise((resolve, reject) => { server.close((err) => (err ? reject(err) : resolve(undefined))); });
 		await closeActiveSockets(timeoutMs);
 	};
 

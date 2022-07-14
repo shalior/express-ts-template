@@ -1,5 +1,5 @@
-import { createJwt, User } from '../src/services/user';
 import chai, { expect } from 'chai';
+import { createJwt, User } from '../src/services/user';
 import config from '../src/config';
 
 const serverUrl = config.http.baseUrl;
@@ -26,11 +26,9 @@ export function actingAs(user: User, request: { type: 'post' | 'get' | 'put' | '
 				.put(request.route)
 				.set('Authorization', `Bearer ${jwt}`);
 	}
-
 }
 
 export class Request {
-
 	public static get(route: string) {
 		return chai.request(serverUrl).get(route);
 	}
@@ -50,7 +48,4 @@ export class Request {
 	public static put(route: string) {
 		return chai.request(serverUrl).put(route);
 	}
-
-
-
 }

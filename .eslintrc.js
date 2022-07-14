@@ -18,6 +18,8 @@ module.exports = {
 	],
 	rules: {
 		'import/extensions': 'off',
+		'import/no-extraneous-dependencies': 'off',
+		'no-shadow': 'off',
 		'no-console': 'off',
 		'import/prefer-default-export': 'off',
 		'no-plusplus': 'off',
@@ -45,7 +47,7 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/ban-types': 'off',
 		'no-useless-constructor': 'off',
-		'no-use-before-define': ['error', 'nofunc']
+		'no-use-before-define': ['error', 'nofunc'],
 	},
 	settings: {
 		'import/resolver': {

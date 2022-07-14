@@ -1,13 +1,12 @@
-
 // create a user
-import { create } from '../../services/user';
 import faker from 'faker';
+import { create } from '../../services/user';
 
-export default async function () {
-	return await create({
+export default async function userFactory() {
+	return create({
 		email: faker.internet.email(),
 		enabled: true,
 		password: 'password',
 		minJwtIat: (new Date((new Date().setFullYear(2020)))),
-	})
+	});
 }

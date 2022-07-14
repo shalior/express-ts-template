@@ -29,7 +29,6 @@ export async function start(startConfig?: SystemServices): Promise<void> {
 
 	// job queues
 
-
 	// http server
 	if (startConfig?.server) {
 		await new Promise<void>((resolve, reject) => {
@@ -73,7 +72,6 @@ export async function stop(): Promise<void> {
 	logger.info('Closing DB connection...');
 	await knex.destroy()
 		.catch((err) => logger.error(err));
-
 
 	logger.info('Graceful shutdown completed');
 }

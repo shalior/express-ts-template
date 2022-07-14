@@ -142,10 +142,12 @@ export function findFirstsStreamGenerator<TFilter = Record<string, any> | string
 	};
 }
 
-function findMultiQuery<TFilter = Record<string, any> | string | number, TEntity = object>(
+function findMultiQuery<TFilter = Record<string, any> | string | number>(
 	table: string,
 	columns: string[],
-	filters: TFilter[], orderBy?: OrderByArray, trx?: Knex.Transaction,
+	filters: TFilter[],
+	orderBy?: OrderByArray,
+	trx?: Knex.Transaction,
 ) {
 	const query = trx?.queryBuilder() || knex.queryBuilder();
 	return filters.reduce<Knex.QueryBuilder>((_query, filter) => _query.unionAll(function findSingle() {

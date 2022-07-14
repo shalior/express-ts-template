@@ -7,7 +7,7 @@ const translations: Record<string, Record<string, string>> = {
 
 export type i18nTranslate = (text: string, replace?: Record<string, any>, locale?: string) => string
 
-export function translate(text: string, replace: Record<string, any> = {}, locale?: string): string {
+export function translate(text: string, locale?: string, replace: Record<string, any> = {}): string {
 	let result = (translations[
 		locale || config.product.locale]?.[text] ?? text);
 	Object.keys(replace)
@@ -36,7 +36,7 @@ export function getTranslator(langs?: string[]): ((text: string, replace?: Recor
 
 	return (text: string, replace: Record<string, any> = {}): string => translate(
 		text,
-		replace,
 		exactLocale || localeWithoutTerritory || config.product.locale,
+		replace,
 	);
 }
