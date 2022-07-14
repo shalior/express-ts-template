@@ -6,6 +6,8 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-20.04
     continue-on-error: false
+    env:
+      NODE_ENV: test
     services:
       database:
         image: postgres
