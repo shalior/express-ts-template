@@ -22,12 +22,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-          cache-dependency-path: ./package-lock.json
       - uses: actions/checkout@v3
 
       - name: Install modules
-        run: npm ci
+        run: npm install
 
       - name: Copy env
         run: cp .env.example .env
