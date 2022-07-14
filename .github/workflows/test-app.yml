@@ -5,7 +5,7 @@ jobs:
     name: Run tests
     timeout-minutes: 30
     runs-on: ubuntu-20.04
-    continue-on-error: true
+    continue-on-error: false
     services:
       database:
         image: postgres
