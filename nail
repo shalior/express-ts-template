@@ -93,7 +93,7 @@ elif [ "$1" == "mocha" ]; then
         ARGS+=(exec -u root)
         [ ! -t 0 ] && ARGS+=(-T)
 
-        ARGS+=("$APP_SERVICE" env HTTP_PORT="3001" HTTP_ORIGIN="http://127.0.0.1:3001" NODE_ENV=test npx mocha 'tests/**/*.test.ts' "$@")
+        ARGS+=("$APP_SERVICE" env HTTP_PORT="3001" HTTP_ORIGIN="http://127.0.0.1:3001" NODE_ENV=test TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=false npx mocha 'tests/**/*.test.ts' "$@")
     else
         nail_is_not_running
     fi
