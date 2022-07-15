@@ -13,7 +13,6 @@ suite('User Login');
 let user: User;
 
 before(async () => {
-	// create a user
 	user = await UserFactory();
 });
 

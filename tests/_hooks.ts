@@ -1,5 +1,4 @@
 import {start, stop} from '../src/lifecycle';
-import {nullary} from '../src/algebra/functions';
 import db from "../src/db";
 
 type DoneFunction = () => {};
