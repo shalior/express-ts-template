@@ -1,12 +1,12 @@
 // create a user
 import { faker } from '@faker-js/faker';
-import { create } from '../../services/user';
+import { create, SaveUser } from '../../services/user';
 
-export default async function userFactory() {
+export default async function userFactory(user ?: Partial<SaveUser>) {
 	return create({
-		email: faker.internet.email(),
-		enabled: true,
+		email: user?.email ?? faker.internet.email(),
+		enabled: user?.enabled ?? true,
 		password: 'password',
-		minJwtIat: (new Date((new Date().setFullYear(2020)))),
+		minJwtIat: user?.minJwtIat ?? (new Date((new Date().setFullYear(2020)))),
 	});
 }
