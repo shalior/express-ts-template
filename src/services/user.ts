@@ -46,7 +46,7 @@ export interface AuthResponse {
 	user: Omit<User, 'passwordHash'>,
 }
 
-export const table = 'user';
+export const table = 'users';
 
 export const cols = {
 	id: 'id',
