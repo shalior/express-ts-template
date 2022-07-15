@@ -7,7 +7,7 @@ const config = {
 		user: process.env.DB_USER,
 		password: process.env.DB_PASS,
 	},
-	debug: ['development', 'test'].includes(process.env.NODE_ENV),
+	debug: ['development'].includes(process.env.NODE_ENV),
 	pool: {
 		min: 2,
 		max: 10,
