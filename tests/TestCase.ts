@@ -7,7 +7,6 @@ const serverUrl = config.http.baseUrl;
 export function actingAs(user: User, request: { type: 'post' | 'get' | 'put' | 'delete'; route: string }) {
 	const jwt: string = createJwt(user);
 
-	console.log(jwt);
 	switch (request.type) {
 		case 'post':
 			return chai.request(serverUrl)

@@ -22,11 +22,13 @@ app.set('trust proxy', 'loopback');
 app.set('views', join(__dirname, '..', 'views', 'pages'));
 app.set('view engine', 'pug');
 
-app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time ms', {
-	stream: {
-		write: (msg) => logger.http(msg),
-	},
-}));
+if (config.environment === 'development') {
+	app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time ms', {
+		stream: {
+			write: (msg) => logger.http(msg),
+		},
+	}));
+}
 
 // TODO: You can edit the next line to enable CORS in production or customize the following behavior
 if (config.environment === 'development') {

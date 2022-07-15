@@ -14,7 +14,6 @@ r.post('/jwt', asyncWrapper(async (req, res) => {
 }));
 
 r.delete('/', asyncWrapper(async (req, res) => {
-	console.log(req.headers);
 	await del(res.locals.user.id);
 	res.status(HttpStatus.NoContent).end();
 }));

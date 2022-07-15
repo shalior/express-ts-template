@@ -10,6 +10,11 @@ export default winston.createLogger({
 		format.simple(),
 	),
 	transports: [
-		new winston.transports.Console(),
+		config.environment === 'test'
+			? new winston.transports.File({
+				filename: 'testing.log',
+				level: 'silly',
+			})
+			: new winston.transports.Console(),
 	],
 });

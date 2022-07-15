@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai';
 import knexInstance from "../../src/db";
 
-suite('Signed urls');
+suite('Database connection test');
 let signedUrl: string;
 
 test('can connect to database', async () => {
