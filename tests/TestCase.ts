@@ -1,6 +1,7 @@
 import chai, { expect } from 'chai';
-import { createJwt, User } from '../src/services/UserService';
+import { createJwt } from '../src/services/UserService';
 import config from '../src/config';
+import {User} from "../src/services/types/UserType";
 
 const serverUrl = config.http.baseUrl;
 

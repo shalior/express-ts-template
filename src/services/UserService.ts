@@ -7,38 +7,12 @@ import config from '../config';
 import {
 	fromQueryGenerator, findOneGenerator, insertGetId,
 } from '../db/utils';
+import { SaveUser, User, UserRaw } from './types/UserType';
 // eslint-disable-next-line import/first
 
 export interface LoginParams {
 	email: string,
 	password: string,
-}
-
-export interface User {
-	id: number,
-	email: string,
-	passwordHash: string,
-	enabled: boolean,
-	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
-}
-
-export interface UserRaw {
-	id: number,
-	email: string,
-	passwordHash: string,
-	enabled: boolean,
-	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
-}
-
-export interface SaveUser {
-	email: string,
-	password: string,
-	enabled: boolean,
-	minJwtIat: Date,
 }
 
 export interface AuthResponse {

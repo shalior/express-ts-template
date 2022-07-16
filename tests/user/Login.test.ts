@@ -1,14 +1,15 @@
 import chai, {expect} from 'chai';
 import chaiHttp from 'chai-http';
 
-import {del, User} from '../../src/services/UserService';
+import {del} from '../../src/services/UserService';
+import {User} from "../../src/services/types/UserType";
 import {HttpStatus} from '../../src/http/status';
 import {actingAs, Request} from '../TestCase';
 import UserFactory from '../../src/db/factories/UserFactory';
 
 chai.use(chaiHttp);
 
-suite('UserService Login');
+suite('User Login');
 
 let user: User;
 
