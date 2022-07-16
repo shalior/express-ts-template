@@ -1,10 +1,10 @@
 import chai, { expect } from 'chai';
-import { createJwt, UserService } from '../src/services/UserService';
+import { createJwt, User } from '../src/services/UserService';
 import config from '../src/config';
 
 const serverUrl = config.http.baseUrl;
 
-export function actingAs(user: UserService, request: { type: 'post' | 'get' | 'put' | 'delete'; route: string }) {
+export function actingAs(user: User, request: { type: 'post' | 'get' | 'put' | 'delete'; route: string }) {
 	const jwt: string = createJwt(user);
 
 	switch (request.type) {

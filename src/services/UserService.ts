@@ -14,7 +14,7 @@ export interface LoginParams {
 	password: string,
 }
 
-export interface UserService {
+export interface User {
 	id: number,
 	email: string,
 	passwordHash: string,
@@ -43,7 +43,7 @@ export interface SaveUser {
 
 export interface AuthResponse {
 	jwt: string,
-	user: Omit<UserService, 'passwordHash'>,
+	user: Omit<User, 'passwordHash'>,
 }
 
 export const table = 'users';
@@ -60,7 +60,7 @@ export const cols = {
 
 const columnNames = Object.values(cols);
 
-export function createJwt(user: UserService): string {
+export function createJwt(user: User): string {
 	const token = jwt.sign({}, config.secret, {
 		expiresIn: config.authentication.tokenExpirationSeconds,
 		subject: toString(user.id),
@@ -68,7 +68,7 @@ export function createJwt(user: UserService): string {
 	return token;
 }
 
-export function generateAuthResponse(user: UserService): AuthResponse {
+export function generateAuthResponse(user: User): AuthResponse {
 	return {
 		jwt: createJwt(user),
 		user: {
@@ -82,7 +82,7 @@ export function generateAuthResponse(user: UserService): AuthResponse {
 	};
 }
 
-function rowMapper(row: UserRaw): Promise<UserService> {
+function rowMapper(row: UserRaw): Promise<User> {
 	return Promise.resolve({
 		...row,
 	});
@@ -90,9 +90,9 @@ function rowMapper(row: UserRaw): Promise<UserService> {
 
 export const find = findOneGenerator(table, columnNames, (row) => rowMapper(row));
 
-export const fromQuery = fromQueryGenerator<UserService>(columnNames, (row) => rowMapper(row));
+export const fromQuery = fromQueryGenerator<User>(columnNames, (row) => rowMapper(row));
 
-export function create(user: SaveUser, trx?: Knex.Transaction): Promise<UserService> {
+export function create(user: SaveUser, trx?: Knex.Transaction): Promise<User> {
 	return transact([
 		async (db) => insertGetId(db(table)
 			.insert({
@@ -105,7 +105,7 @@ export function create(user: SaveUser, trx?: Knex.Transaction): Promise<UserServ
 	], trx);
 }
 
-export function update(id: number, user: Partial<SaveUser>, trx?: Knex.Transaction): Promise<UserService> {
+export function update(id: number, user: Partial<SaveUser>, trx?: Knex.Transaction): Promise<User> {
 	return transact([
 		async (db) => db(table)
 			.where({ id })

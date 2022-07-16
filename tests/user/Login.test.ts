@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai';
 import chaiHttp from 'chai-http';
 
-import {del, UserService} from '../../src/services/UserService';
+import {del, User} from '../../src/services/UserService';
 import {HttpStatus} from '../../src/http/status';
 import {actingAs, Request} from '../TestCase';
 import UserFactory from '../../src/db/factories/UserFactory';
@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 suite('UserService Login');
 
-let user: UserService;
+let user: User;
 
 before(async () => {
 	user = await UserFactory();
