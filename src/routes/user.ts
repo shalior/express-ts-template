@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { asyncWrapper } from '@cdellacqua/express-async-wrapper';
-import { login } from '../services/user';
+import { login } from '../services/UserService';
 import { validationMiddleware } from '../http/validation';
 import { HttpStatus } from '../http/status';
 

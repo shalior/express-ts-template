@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { asyncWrapper } from '@cdellacqua/express-async-wrapper';
 import { HttpError } from '../../http/error';
 import config from '../../config';
-import { find } from '../../services/user';
+import { find } from '../../services/UserService';
 import { HttpStatus } from '../../http/status';
 
 // TODO: customize your authorization logic

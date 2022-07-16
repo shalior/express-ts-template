@@ -1,6 +1,6 @@
 // create a user
 import { faker } from '@faker-js/faker';
-import { create, SaveUser } from '../../services/user';
+import { create, SaveUser } from '../../services/UserService';
 
 export default async function userFactory(user ?: Partial<SaveUser>) {
 	return create({

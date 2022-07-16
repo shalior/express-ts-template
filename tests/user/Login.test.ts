@@ -1,16 +1,16 @@
 import chai, {expect} from 'chai';
 import chaiHttp from 'chai-http';
 
-import {del, User} from '../../src/services/user';
+import {del, UserService} from '../../src/services/UserService';
 import {HttpStatus} from '../../src/http/status';
 import {actingAs, Request} from '../TestCase';
 import UserFactory from '../../src/db/factories/UserFactory';
 
 chai.use(chaiHttp);
 
-suite('User Login');
+suite('UserService Login');
 
-let user: User;
+let user: UserService;
 
 before(async () => {
 	user = await UserFactory();

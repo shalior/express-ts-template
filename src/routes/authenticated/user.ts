@@ -2,7 +2,7 @@ import { asyncWrapper } from '@cdellacqua/express-async-wrapper';
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { HttpStatus } from '../../http/status';
-import { del, generateAuthResponse, update } from '../../services/user';
+import { del, generateAuthResponse, update } from '../../services/UserService';
 
 const r: Router = Router();
 export default r;

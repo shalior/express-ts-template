@@ -86,7 +86,7 @@ At the top level directory you can find the following files and folders:
 			- `00-create_user_table.ts`: creates a basic `user` table containing common columns, you can extend it or, if your application doesn't need users, you can delete this file
 		- `seeds`: contains knex seed files for development and testing purposes
 			- `00-setup.ts`: includes the application startup code (see below) that enables you to safely call any function/instantiate any class
-			- `01-user.ts`: contains a simple seed that adds one user to the database
+			- `01-UserService.ts`: contains a simple seed that adds one user to the database
 			- `99-tear-down.ts`: gracefully stops the application after all seeds have run
 		- `index.ts`: exports the knex instance configured using the process.env.NODE_ENV variable
 		- `utils.ts`: contains a set of useful functions that can be used to easily create common I/O mechanism with the database
@@ -120,12 +120,12 @@ At the top level directory you can find the following files and folders:
 		- `user.ts`: contains an authentication route
 		- `index.ts`: registers the routes of this directory and exports the express router object
 	- `services`: contains all the services of your application. What "service" means to you depends on how much abstraction you want to put in your code, in this template a service is intended as a module containing functions that are needed to communicate with the database or, more in general, that manages the application logic
-		- `user.ts`: service that manages basic user logic
+		- `UserService.ts`: service that manages basic user logic
 	- `runtime`: contains runtime related functionalities
 		- `delay.ts`: exports functions that helps manage delays between tasks
 		- `index.ts`: exports common runtime functionalities
 	- `services`: contains entity management code
-		- `user.ts`: exports functionalities related to the User entity
+		- `UserService.ts`: exports functionalities related to the UserService entity
 	- `types`: contains custom data types
 		- `common.ts`: contains simple custom data types
 	- `app.ts`: contains the express app initialization code, including the registrations of routers and middlewares

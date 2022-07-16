@@ -1,6 +1,6 @@
 import { transact } from '@cdellacqua/knex-transact';
 import { Knex } from 'knex';
-import { create } from '../../services/user';
+import { create } from '../../services/UserService';
 
 export async function seed(trx: Knex.Transaction): Promise<void> {
 	return transact([
