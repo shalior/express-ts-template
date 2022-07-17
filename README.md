@@ -112,7 +112,7 @@ At the top level directory you can find the following files and folders:
 		- `internals.ts`: contains the queue infrastructure management functions
 	- `routes`: contains all the exposed end points of the application, you can choose the structure that better fits your needs. This template provides a simple structure based on multiple express routers that are registered hierarchically, mainly following the directory structure
 		- `authenticated`: contains all the routes that are accessible by authenticated users only
-			- `_middleware.ts`: contains a basic authentication/authorization middleware based on JWTs, you can customize it if you need to
+			- `UserAthenticationMiddleware.ts`: contains a basic authentication/authorization middleware based on JWTs, you can customize it if you need to
 			- `goodbye.ts`: example authorized route
 			- `index.ts`: registers the routes of this directory and exports the express router object
 			- `user.ts`: contains a route that can be used by the client to renew its JWT if the one it has is near its expiration

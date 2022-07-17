@@ -22,7 +22,7 @@ after(async () => {
 });
 
 test('user receives jwt token after login', async () => {
-	const response = await Request.post('/user/jwt')
+	const response = await Request.post('/auth/jwt')
 		.send({password: 'password', email: user.email});
 
 	expect(response).to.have.status(201);
@@ -31,20 +31,20 @@ test('user receives jwt token after login', async () => {
 
 test('cant login with invalid credentials', async () => {
 	const res = await Request
-		.post('/user/jwt')
+		.post('/auth/jwt')
 		.send({password: 'wrongPassword!', email: 'user.email'});
 
 	expect(res).to.have.status(HttpStatus.UnprocessableEntity);
 });
 
 test('Can renew JWT token', async () => {
-	const res = await actingAs(user, {type: 'post', route: '/auth/user/jwt'});
+	const res = await actingAs(user, {type: 'post', route: '/auth/jwt/new'});
 
 	expect(res.body).to.haveOwnProperty('jwt');
 });
 
 test('Can access restricted routes with jwt', async () => {
-	const res = await actingAs(user, {type: 'get', route: '/auth/goodbye'})
+	const res = await actingAs(user, {type: 'get', route: '/app/goodbye'})
 
 	expect(res.text).to.equal(`goodbye ${user.email}`);
 });

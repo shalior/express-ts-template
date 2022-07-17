@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import goodbyeRoutes from './goodbye';
 import userRoutes from './user';
-import authMiddleware from './_middleware';
+
+import authMiddleware from '../../http/UserAthenticationMiddleware';
 
 const r: Router = Router();
 export default r;

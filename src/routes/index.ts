@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { Router, static as expressStatic } from 'express';
-import userRoutes from './user';
-import authenticatedRoutes from './authenticated';
+import appRoutes from './app';
+import authenticationRoutes from './auth/auth';
 import { verifyUrlMiddleware } from '../crypto/url';
 import config from '../config';
 
@@ -13,10 +13,10 @@ r.get('/hello-api', (_, res) => res.send('hello, World!'));
 r.get('/hello-ssr', (_, res) => res.render('hello-world'));
 r.get('/hello-signed', verifyUrlMiddleware(), (_, res) => res.send('hello. This url is signed!'));
 
-r.use('/user', userRoutes);
+r.use('/app', appRoutes);
 
-// TODO: if you want to change the prefix for the authenticated routes, change the first argument in the following function call
-r.use('/auth', authenticatedRoutes);
+// TODO: if you want to change the prefix for the app routes, change the first argument in the following function call
+r.use('/auth', authenticationRoutes);
 
 // TODO: for development purposes express will serve static files from the public directory, in a production environment
 // this task should be performed by a reverse proxy to improve performance
