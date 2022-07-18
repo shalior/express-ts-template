@@ -13,6 +13,8 @@ r.get('/hello-api', (_, res) => res.send('hello, World!'));
 r.get('/hello-ssr', (_, res) => res.render('hello-world'));
 r.get('/hello-signed', verifyUrlMiddleware(), (_, res) => res.send('hello. This url is signed!'));
 
+r.get('/health', (req, res) => { res.json({ status: 'OK' }).status(200); });
+
 r.use('/app', appRoutes);
 
 // TODO: if you want to change the prefix for the app routes, change the first argument in the following function call

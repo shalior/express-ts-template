@@ -18,7 +18,8 @@
     "refresh:seed": "npm run build && npm run knex migrate:rollback --all && npm run migrate && npm run knex seed:run",
     "seed": "npm run build && npm run knex seed:run",
     "migrate-seed": "npm run build && npm run knex migrate:latest && npm run knex seed:run",
-    "setup": "node --unhandled-rejections=strict setup.js"
+    "setup": "node --unhandled-rejections=strict setup.js",
+		"docs:build": "cd docs && tsc generate.ts --resolveJsonModule && node -r dotenv/config generate.js && cd .."
   },
   "keywords": [],
   "private": true,
@@ -51,7 +52,8 @@
     "nodemon": "^2.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.0",
-    "typescript": "^4.2.4"
+		"redoc": "^2.0.0-rc.72",
+		"typescript": "^4.2.4"
   },
   "dependencies": {
     "@cdellacqua/express-async-wrapper": "^1.0.2",
