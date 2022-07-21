@@ -1,21 +1,17 @@
-export interface User {
-	id: number,
+import { BaseModel } from './BaseModel';
+
+export interface User extends BaseModel {
 	email: string,
 	passwordHash: string,
 	enabled: boolean,
 	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
 }
 
-export interface UserRaw {
-	id: number,
+export interface UserRaw extends BaseModel{
 	email: string,
 	passwordHash: string,
 	enabled: boolean,
 	minJwtIat: Date,
-	createdAt: Date,
-	updatedAt: Date,
 }
 
 export interface SaveUser extends Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'passwordHash'>{
