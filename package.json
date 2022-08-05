@@ -37,7 +37,7 @@
     "@types/mocha": "^9.1.1",
     "@types/morgan": "^1.9.2",
     "@types/node": "^18.6.4",
-    "@types/nodemailer": "^6.4.1",
+    "@types/nodemailer": "^6.4.5",
     "@types/pg": "^8.6.5",
     "@types/pug": "^2.0.4",
     "@types/superagent": "^4.1.10",
