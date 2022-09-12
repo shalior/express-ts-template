@@ -36,7 +36,7 @@
     "@types/lodash": "^4.14.185",
     "@types/mocha": "^9.1.1",
     "@types/morgan": "^1.9.2",
-    "@types/node": "^18.7.15",
+    "@types/node": "^18.7.16",
     "@types/nodemailer": "^6.4.5",
     "@types/pg": "^8.6.5",
     "@types/pug": "^2.0.4",
