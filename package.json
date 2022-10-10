@@ -65,7 +65,7 @@
     "cors": "^2.8.5",
     "crypto-extra": "^1.0.1",
     "dotenv": "^16.0.3",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-paginate": "^1.0.2",
     "express-validator": "^6.6.1",
     "ioredis": "^5.2.3",
