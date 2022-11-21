@@ -42,7 +42,7 @@
     "@types/pug": "^2.0.4",
     "@types/superagent": "^4.1.10",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
+    "@typescript-eslint/parser": "^5.43.0",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "chai-spies": "^1.0.0",
