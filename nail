@@ -63,6 +63,17 @@ elif [ "$1" == "npx" ]; then
         sail_is_not_running
     fi
 
+elif [ "$1" == "knex" ]; then
+    shift 1
+
+    if [ "$EXEC" == "yes" ]; then
+        ARGS+=(exec -u root)
+        [ ! -t 0 ] && ARGS+=(-T)
+        ARGS+=("$APP_SERVICE" npm run knex "$@")
+    else
+        sail_is_not_running
+    fi
+
 elif [ "$1" == "node" ]; then
     shift 1
 
@@ -82,6 +93,18 @@ elif [ "$1" == "test:all" ]; then
         [ ! -t 0 ] && ARGS+=(-T)
 
         ARGS+=("$APP_SERVICE" env HTTP_PORT="3001" HTTP_ORIGIN="http://127.0.0.1:3001" npm test "$@")
+    else
+        nail_is_not_running
+    fi
+
+elif [ "$1" == "build" ]; then
+    shift 1
+
+    if [ "$EXEC" == "yes" ]; then
+        ARGS+=(exec -u root)
+        [ ! -t 0 ] && ARGS+=(-T)
+
+        ARGS+=("$APP_SERVICE" npm run build)
     else
         nail_is_not_running
     fi
