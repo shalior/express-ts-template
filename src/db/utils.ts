@@ -76,7 +76,7 @@ export function createMultiGeneratorWithKey<TKey, TSave, TEntity>(
 	};
 }
 
-export function findOneGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findOneGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -92,7 +92,7 @@ export function findOneGenerator<TFilter = Record<string, any> | string | number
 	};
 }
 
-function findFirstsQuery<TFilter = Record<string, any> | string | number>(
+function findFirstsQuery<TFilter extends Record<string, any> | string | number>(
 	table: string,
 	columns: string[],
 	filters: TFilter[],
@@ -109,7 +109,7 @@ function findFirstsQuery<TFilter = Record<string, any> | string | number>(
 	}, true), query);
 }
 
-export function findFirstsGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findFirstsGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -126,7 +126,7 @@ export function findFirstsGenerator<TFilter = Record<string, any> | string | num
 	};
 }
 
-export function findFirstsStreamGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findFirstsStreamGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -142,7 +142,7 @@ export function findFirstsStreamGenerator<TFilter = Record<string, any> | string
 	};
 }
 
-function findMultiQuery<TFilter = Record<string, any> | string | number>(
+function findMultiQuery<TFilter extends Record<string, any> | string | number>(
 	table: string,
 	columns: string[],
 	filters: TFilter[],
@@ -159,7 +159,7 @@ function findMultiQuery<TFilter = Record<string, any> | string | number>(
 	}, true), query).orderBy(orderBy || []);
 }
 
-export function findMultiGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findMultiGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -173,7 +173,7 @@ export function findMultiGenerator<TFilter = Record<string, any> | string | numb
 	};
 }
 
-export function findMultiStreamGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findMultiStreamGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -189,7 +189,7 @@ export function findMultiStreamGenerator<TFilter = Record<string, any> | string 
 	};
 }
 
-export function findGroupedMultiGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findGroupedMultiGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -227,7 +227,7 @@ export function findGroupedMultiGenerator<TFilter = Record<string, any> | string
 	};
 }
 
-function findAllQuery<TFilter = Record<string, any> | string | number>(
+function findAllQuery<TFilter extends Record<string, any> | string | number>(
 	table: string,
 	columns: string[],
 	filter: TFilter,
@@ -243,7 +243,7 @@ function findAllQuery<TFilter = Record<string, any> | string | number>(
 		.select(columns);
 }
 
-export function findAllGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findAllGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
@@ -254,7 +254,7 @@ export function findAllGenerator<TFilter = Record<string, any> | string | number
 	};
 }
 
-export function findAllStreamGenerator<TFilter = Record<string, any> | string | number, TEntity = object>(
+export function findAllStreamGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
 	table: string,
 	columns: string[],
 	rowToEntity: (row: any, trx?: Knex.Transaction) => Promise<TEntity>,
