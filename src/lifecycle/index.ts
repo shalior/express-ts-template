@@ -1,7 +1,6 @@
 import { SerializableError } from '@cdellacqua/serializable-error';
 import pg from 'pg';
 import BigNumber from 'bignumber.js';
-import { config as knexTransactConfig } from '@cdellacqua/knex-transact';
 import knex from '../db';
 import config from '../config';
 import logger from '../log/logger';
@@ -23,11 +22,6 @@ export async function start(startConfig?: SystemServices): Promise<void> {
 
 	// pg
 	pg.types.setTypeParser(pg.types.builtins.NUMERIC, (decimal: string): BigNumber => new BigNumber(decimal));
-
-	// knex-transact
-	knexTransactConfig.knexInstance = knex;
-
-	// job queues
 
 	// http server
 	if (startConfig?.server) {

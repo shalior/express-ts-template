@@ -1,13 +1,10 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { Knex } from 'knex';
-import { transact } from '@cdellacqua/knex-transact';
 import { toString } from 'express-validator/src/utils';
+import knexInstance from '../db';
 import config from '../config';
-import {
-	fromQueryGenerator, findOneGenerator, insertGetId,
-} from '../db/utils';
-import { SaveUser, User, UserRaw } from './types/UserType';
+import { SaveUser, User } from './types/UserType';
+import { UserResource } from '../http/Resources/UserResource';
 // eslint-disable-next-line import/first
 
 export interface LoginParams {
@@ -17,10 +14,10 @@ export interface LoginParams {
 
 export interface AuthResponse {
 	jwt: string,
-	user: Omit<User, 'passwordHash'>,
+	user: UserResource,
 }
 
-export const table = 'users';
+export const tableName = 'users';
 
 export const cols = {
 	id: 'id',
@@ -32,79 +29,62 @@ export const cols = {
 	updatedAt: 'updatedAt',
 };
 
-const columnNames = Object.values(cols);
-
-export function createJwt(user: User): string {
-	const token = jwt.sign({}, config.secret, {
-		expiresIn: config.authentication.tokenExpirationSeconds,
-		subject: toString(user.id),
-	});
-	return token;
+async function find(filters: Partial<User> | number): Promise<User | undefined> {
+	return knexInstance<User>(tableName)
+		.where(typeof filters === 'object' ? filters : { id: filters })
+		.select('*')
+		.first();
 }
 
-export function generateAuthResponse(user: User): AuthResponse {
-	return {
-		jwt: createJwt(user),
-		user: {
-			createdAt: user.createdAt,
-			email: user.email,
+async function findAll(filters?: Partial<User>): Promise<User[]> {
+	const users = await knexInstance<User>(tableName)
+		.orderBy('createdAt', 'desc')
+		.modify((queryBuilder) => {
+			if (filters) {
+				queryBuilder.where(filters);
+			}
+		})
+		.select('*');
+
+	return Promise.all(users.map(UserResource.from));
+}
+
+async function create(saveUser: SaveUser): Promise<User> {
+	return knexInstance<User>(tableName)
+		.insert({
+			email: saveUser?.email?.toLowerCase(),
+			passwordHash: await bcrypt.hash(saveUser.password, 10),
+			enabled: saveUser.enabled,
+			minJwtIat: saveUser.minJwtIat,
+		}, '*')
+		.returning('*')
+		.then((rows) => rows[0]);
+}
+
+async function update(id: string, user: Partial<SaveUser>) {
+	const result = await knexInstance<User>(tableName)
+		.where('id', id)
+		.update({
+			email: user.email?.toLowerCase(),
+			passwordHash: user.password && await bcrypt.hash(user.password, 10),
 			enabled: user.enabled,
-			id: user.id,
 			minJwtIat: user.minJwtIat,
-			updatedAt: user.updatedAt,
-		},
-	};
+			updatedAt: new Date(),
+		}, ['*']);
+
+	return result[0];
 }
 
-function rowMapper(row: UserRaw): Promise<User> {
-	return Promise.resolve({
-		...row,
-	});
+async function del(id: number): Promise<void> {
+	await knexInstance<User>(tableName)
+		.where('id', id)
+		.delete();
 }
 
-export const find = findOneGenerator(table, columnNames, (row) => rowMapper(row));
-
-export const fromQuery = fromQueryGenerator<User>(columnNames, (row) => rowMapper(row));
-
-export function create(user: SaveUser, trx?: Knex.Transaction): Promise<User> {
-	return transact([
-		async (db) => insertGetId(db(table)
-			.insert({
-				[cols.email]: user.email.toLowerCase(),
-				[cols.passwordHash]: await bcrypt.hash(user.password, 10),
-				[cols.enabled]: user.enabled,
-				[cols.minJwtIat]: user.minJwtIat,
-			})),
-		(db, id) => find(id, db),
-	], trx);
-}
-
-export function update(id: number, user: Partial<SaveUser>, trx?: Knex.Transaction): Promise<User> {
-	return transact([
-		async (db) => db(table)
-			.where({ id })
-			.update({
-				[cols.email]: user.email?.toLowerCase(),
-				[cols.passwordHash]: user.password && await bcrypt.hash(user.password, 10),
-				[cols.enabled]: user.enabled,
-				[cols.minJwtIat]: user.minJwtIat,
-				[cols.updatedAt]: new Date(),
-			}),
-		(db) => find(id, db),
-	], trx);
-}
-
-export function del(id: number, trx?: Knex.Transaction): Promise<void> {
-	return transact(
-		(db) => db(table).where({ [cols.id]: id }).delete(),
-		trx,
-	);
-}
-
-export async function login({ email, password }: LoginParams): Promise<AuthResponse | null> {
+async function login({ email, password }: LoginParams): Promise<AuthResponse | null> {
 	const user = await find({
-		[cols.email]: email.toLowerCase(),
-		[cols.enabled]: true,
+		email,
+		enabled: true,
 	});
 	if (!user) {
 		return null;
@@ -115,3 +95,34 @@ export async function login({ email, password }: LoginParams): Promise<AuthRespo
 	}
 	return generateAuthResponse(user);
 }
+
+function checkPassword(id: number, password: string): Promise<boolean> {
+	return find(id)
+		.then((user) => bcrypt.compare(password, user?.passwordHash ?? ''));
+}
+
+function createJwt(user: User): string {
+	return jwt.sign({}, config.secret, {
+		expiresIn: config.authentication.tokenExpirationSeconds,
+		subject: toString(user.id),
+	});
+}
+
+function generateAuthResponse(user: User): AuthResponse {
+	return {
+		jwt: createJwt(user),
+		user: UserResource.from(user) as UserResource,
+	};
+}
+
+export default {
+	find,
+	findAll,
+	create,
+	update,
+	del,
+	login,
+	checkPassword,
+	createJwt,
+	generateAuthResponse,
+};

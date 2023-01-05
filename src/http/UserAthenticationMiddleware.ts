@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { asyncWrapper } from '@cdellacqua/express-async-wrapper';
 import { HttpError } from './error';
 import config from '../config';
-import { find } from '../services/UserService';
+import UserService from '../services/UserService';
 import { HttpStatus } from './status';
 
 // TODO: customize your authorization logic
@@ -20,7 +20,7 @@ const middleware = asyncWrapper(async (req, res, next) => {
 	if (!decoded) {
 		throw new HttpError(HttpStatus.Unauthorized, 'unauthorized', new SerializableError('jwt decode returned a falsy value'));
 	}
-	const user = await find(decoded.sub);
+	const user = await UserService.find(Number(decoded.sub));
 	if (!user) {
 		throw new HttpError(HttpStatus.Unauthorized, 'unauthorized', new SerializableError('jwt refers to a missing user'));
 	}

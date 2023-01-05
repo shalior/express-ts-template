@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai';
 import chaiHttp from 'chai-http';
 
-import {del} from '../../src/services/UserService';
+import UserService from '../../src/services/UserService';
 import {User} from "../../src/services/types/UserType";
 import {HttpStatus} from '../../src/http/status';
 import {actingAs, Request} from '../TestCase';
@@ -18,7 +18,7 @@ before(async () => {
 });
 
 after(async () => {
-	await del(user.id);
+	await UserService.del(user.id);
 });
 
 test('user receives jwt token after login', async () => {

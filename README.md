@@ -83,7 +83,7 @@ At the top level directory you can find the following files and folders:
 		- `url`: contains functions that enable signed urls and the related express middleware
 	- `db`:
 		- `migrations`: contains knex migration scripts
-			- `00-create_user_table.ts`: creates a basic `user` table containing common columns, you can extend it or, if your application doesn't need users, you can delete this file
+			- `00-create_users_table.ts`: creates a basic `user` table containing common columns, you can extend it or, if your application doesn't need users, you can delete this file
 		- `seeds`: contains knex seed files for development and testing purposes
 			- `00-setup.ts`: includes the application startup code (see below) that enables you to safely call any function/instantiate any class
 			- `01-UserService.ts`: contains a simple seed that adds one user to the database

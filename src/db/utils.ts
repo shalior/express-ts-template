@@ -1,5 +1,3 @@
-import { transact } from '@cdellacqua/knex-transact';
-import { SerializableError } from '@cdellacqua/serializable-error';
 /* eslint-disable no-underscore-dangle */
 import { Knex } from 'knex';
 import { Readable, Transform } from 'stream';
@@ -14,14 +12,6 @@ export type OrderByColumn = {column: string, order: 'asc'|'desc'};
 
 export type OrderByArray = OrderByColumn[];
 
-export async function insertGetId<T>(query: Knex.QueryBuilder): Promise<T> {
-	const ids = await insertGetIds<T>(query);
-	if (ids.length === 0) {
-		throw new SerializableError('returned 0 rows');
-	}
-	return ids[0];
-}
-
 export async function selectId<T>(query: Knex.QueryBuilder): Promise<T> {
 	return query.pluck('id').then(identity).then((ids) => ids[0]);
 }
@@ -34,46 +24,6 @@ function rowToEntityTransformStream<TEntity>(rowToEntity: (row: any, trx?: Knex.
 				.then((obj) => done(null, obj), done);
 		},
 	});
-}
-
-export function createMultiGenerator<TSave, TEntity>(
-	createOne: (value: TSave, trx?: Knex.Transaction) => Promise<TEntity>,
-) {
-	return async (saveValues: TSave[], trx?: Knex.Transaction): Promise<TEntity[]> => {
-		if (saveValues.length > 0) {
-			const entries: TEntity[] = [];
-			await transact(
-				saveValues.map(
-					(value) => (_trx: Knex.Transaction) => createOne(value, _trx)
-						.then((entry) => entries.push(entry)),
-				),
-				trx,
-			);
-			return entries;
-		}
-
-		return [];
-	};
-}
-
-export function createMultiGeneratorWithKey<TKey, TSave, TEntity>(
-	createOne: (key: TKey, value: TSave, trx?: Knex.Transaction) => Promise<TEntity>,
-) {
-	return async (saveValues: { key: TKey, data: TSave }[], trx?: Knex.Transaction): Promise<TEntity[]> => {
-		if (saveValues.length > 0) {
-			const entries: TEntity[] = [];
-			await transact(
-				saveValues.map(
-					(value) => async (_trx: Knex.Transaction) => createOne(value.key, value.data, _trx)
-						.then((entry) => entries.push(entry)),
-				),
-				trx,
-			);
-			return entries;
-		}
-
-		return [];
-	};
 }
 
 export function findOneGenerator<TFilter extends Record<string, any> | string | number, TEntity = object>(
@@ -118,7 +68,7 @@ export function findFirstsGenerator<TFilter extends Record<string, any> | string
 		if (filters.length > 0) {
 			const rows = await findFirstsQuery(table, columns, filters, trx);
 			if (rows.length !== filters.length) {
-				throw new SerializableError('unable to find all the rows');
+				throw new Error('unable to find all the rows');
 			}
 			return Promise.all(rows.map((row: any) => rowToEntity(row, trx)));
 		}
