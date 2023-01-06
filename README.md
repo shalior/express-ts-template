@@ -26,7 +26,7 @@ If you're comfortable testing it, you own it, start by reading tests in the proj
 Clone the project: 
 ```
 git clone https://github.com/shalior/express-ts-template.git
-cd my-awesome-project
+cd express-ts-template
 npm i
 npm run setup
 ```
@@ -70,8 +70,10 @@ to interact with containers use the nail helper like so:
 
 nail has other useful commands like: `nail psql` , `nail shell` and others, for a complete list look at the source code.
 
-
 ## What's next
 
 If you look for the word `TODO` in this project you'll find some places where your intervention could be needed to better fit the needs of your new project. Feel free to
 modify anything you want!
+
+-----
+This project is a fork form [express-knex-typescript-template](https://github.com/cdellacqua/express-knex-typescript-template)
