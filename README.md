@@ -76,4 +76,4 @@ If you look for the word `TODO` in this project you'll find some places where yo
 modify anything you want!
 
 -----
-This project is a fork form [express-knex-typescript-template](https://github.com/cdellacqua/express-knex-typescript-template)
+This project is a maintained and enhanced fork of [express-knex-typescript-template](https://github.com/cdellacqua/express-knex-typescript-template)
