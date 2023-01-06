@@ -18,3 +18,9 @@ test('hello api', (done: Done) => {
 			done();
 		});
 });
+
+test('hello api async', async ()=>{
+	const response = await Request.get('/hello-api');
+
+	expect(response.text).to.eq('hello, World!');
+});
