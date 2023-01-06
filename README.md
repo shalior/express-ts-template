@@ -19,6 +19,8 @@ Buzzwords ...or... What technologies does this project use:
 - Morgan & Winston: Logging middleware and library
 - bcrypt: cryptographic library used for hashing
 
+If you're comfortable testing it, you own it, start by reading tests in the project.
+
 ## Setup
 
 Clone the project: 
@@ -39,6 +41,7 @@ _Note: never add the .env file to git or any other version control system. It's 
 
 This template provides a set of useful scripts that can be called using the `npm run <script>` syntax.
 These scripts are:
+Normally you'll run these with my docker helper script (nail) like `nail npm run build`
 - `knex`: knex cli wrapper that runs dotenv/config before instantiating knex
 - `test`: tests the application using [mocha](https://www.npmjs.com/package/mocha) and [chai](https://www.npmjs.com/package/chai)
 - `build`: runs the typescript compiler to build your application
@@ -60,9 +63,10 @@ These scripts are:
 The docker-compose.yml file is intented to be used in development, It has images for node postgres and redis.
 to interact with containers use the nail helper like so:
 
-`nail npm run build`: runs build sccript inside container using node image
-`nail test:all`: runs all tests
-`nail mocha --grep="keyword"` to run specific set of tests
+- `docker compose up -d`: spin up docker compose 
+- `nail npm run build`: runs build script inside container using node image
+- `nail test:all`: runs all tests
+- `nail mocha --grep="keyword"` to run specific set of tests
 
 nail has other useful commands like: `nail psql` , `nail shell` and others, for a complete list look at the source code.
 
